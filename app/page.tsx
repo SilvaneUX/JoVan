@@ -42,21 +42,21 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
               <div className="text-4xl mb-4 text-blue-600">🌍</div>
-              <h3 className="text-xl font-semibold mb-2">Global Reach</h3>
+              <h3 className="text-xl font-semibold text-black mb-2">Global Reach</h3>
               <p className="text-gray-600">
                 We connect local commodities to international markets
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
               <div className="text-4xl mb-4 text-blue-600">✓</div>
-              <h3 className="text-xl font-semibold mb-2">Quality Assured</h3>
+              <h3 className="text-xl font-semibold text-black mb-2">Quality Assured</h3>
               <p className="text-gray-600">
                 All products meet international quality standards
               </p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-md text-center">
               <div className="text-4xl mb-4 text-blue-600">🤝</div>
-              <h3 className="text-xl font-semibold mb-2">Trusted Partner</h3>
+              <h3 className="text-xl font-semibold text-black mb-2">Trusted Partner</h3>
               <p className="text-gray-600">
                 Years of experience in import and export business
               </p>
@@ -68,7 +68,7 @@ export default function Home() {
       {/* Featured Products */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-gray-800">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white-800">
             Featured Products
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
