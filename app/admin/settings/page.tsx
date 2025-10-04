@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { FaSave, FaArrowLeft, FaUpload, FaLink } from 'react-icons/fa';
 import { useSettings, SiteSettings } from '@/contexts/SettingsContext';
 
-type TabType = 'theme' | 'navbar' | 'hero' | 'about' | 'contact';
+type TabType = 'theme' | 'navbar' | 'hero' | 'about' | 'contact' | 'aboutSections' | 'contactInfo';
 
 export default function SettingsPage() {
   const { data: session, status } = useSession();
@@ -141,7 +141,9 @@ export default function SettingsPage() {
               { id: 'navbar', label: 'Navbar' },
               { id: 'hero', label: 'Hero Section' },
               { id: 'about', label: 'About Us' },
+              { id: 'aboutSections', label: 'About Sections' },
               { id: 'contact', label: 'Contact Info' },
+              { id: 'contactInfo', label: 'Custom Contact' },
             ].map((tab) => (
               <button
                 key={tab.id}
@@ -484,6 +486,260 @@ export default function SettingsPage() {
                     placeholder="123 Business Street, City, Country"
                   />
                 </div>
+              </div>
+            )}
+
+            {activeTab === 'aboutSections' && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Custom About Sections</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  Add custom sections to the About Us page. These will appear after the default Why Choose Us section.
+                </p>
+                
+                {formData.about.customSections && formData.about.customSections.length > 0 && (
+                  <div className="space-y-4 mb-6">
+                    {formData.about.customSections.map((section, index) => (
+                      <div key={section.id} className="border border-gray-300 dark:border-slate-600 rounded-xl p-4">
+                        <div className="flex justify-between items-start mb-4">
+                          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Section {index + 1}</h3>
+                          <button
+                            onClick={() => {
+                              const newFormData = { ...formData };
+                              newFormData.about.customSections = newFormData.about.customSections?.filter(s => s.id !== section.id);
+                              setFormData(newFormData);
+                            }}
+                            className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                        <div className="space-y-3">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              Icon (emoji)
+                            </label>
+                            <input
+                              type="text"
+                              value={section.icon || ''}
+                              onChange={(e) => {
+                                const newFormData = { ...formData };
+                                if (newFormData.about.customSections) {
+                                  const sectionIndex = newFormData.about.customSections.findIndex(s => s.id === section.id);
+                                  if (sectionIndex !== -1) {
+                                    newFormData.about.customSections[sectionIndex].icon = e.target.value;
+                                  }
+                                }
+                                setFormData(newFormData);
+                              }}
+                              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-gray-100"
+                              placeholder="📦"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              Title
+                            </label>
+                            <input
+                              type="text"
+                              value={section.title}
+                              onChange={(e) => {
+                                const newFormData = { ...formData };
+                                if (newFormData.about.customSections) {
+                                  const sectionIndex = newFormData.about.customSections.findIndex(s => s.id === section.id);
+                                  if (sectionIndex !== -1) {
+                                    newFormData.about.customSections[sectionIndex].title = e.target.value;
+                                  }
+                                }
+                                setFormData(newFormData);
+                              }}
+                              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-gray-100"
+                              placeholder="Section Title"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              Content
+                            </label>
+                            <textarea
+                              value={section.content}
+                              onChange={(e) => {
+                                const newFormData = { ...formData };
+                                if (newFormData.about.customSections) {
+                                  const sectionIndex = newFormData.about.customSections.findIndex(s => s.id === section.id);
+                                  if (sectionIndex !== -1) {
+                                    newFormData.about.customSections[sectionIndex].content = e.target.value;
+                                  }
+                                }
+                                setFormData(newFormData);
+                              }}
+                              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-gray-100"
+                              rows={4}
+                              placeholder="Section content..."
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                <button
+                  onClick={() => {
+                    const newFormData = { ...formData };
+                    if (!newFormData.about.customSections) {
+                      newFormData.about.customSections = [];
+                    }
+                    newFormData.about.customSections.push({
+                      id: Date.now().toString(),
+                      title: '',
+                      content: '',
+                      icon: '',
+                    });
+                    setFormData(newFormData);
+                  }}
+                  className="flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-xl transition"
+                >
+                  <FaSave className="mr-2" />
+                  Add New Section
+                </button>
+              </div>
+            )}
+
+            {activeTab === 'contactInfo' && (
+              <div className="space-y-4">
+                <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">Custom Contact Info</h2>
+                <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
+                  Add custom contact information boxes to the Contact page.
+                </p>
+                
+                {formData.contact.customInfo && formData.contact.customInfo.length > 0 && (
+                  <div className="space-y-4 mb-6">
+                    {formData.contact.customInfo.map((info, index) => (
+                      <div key={info.id} className="border border-gray-300 dark:border-slate-600 rounded-xl p-4">
+                        <div className="flex justify-between items-start mb-4">
+                          <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">Info Box {index + 1}</h3>
+                          <button
+                            onClick={() => {
+                              const newFormData = { ...formData };
+                              newFormData.contact.customInfo = newFormData.contact.customInfo?.filter(i => i.id !== info.id);
+                              setFormData(newFormData);
+                            }}
+                            className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300"
+                          >
+                            Delete
+                          </button>
+                        </div>
+                        <div className="space-y-3">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              Icon (emoji)
+                            </label>
+                            <input
+                              type="text"
+                              value={info.icon || ''}
+                              onChange={(e) => {
+                                const newFormData = { ...formData };
+                                if (newFormData.contact.customInfo) {
+                                  const infoIndex = newFormData.contact.customInfo.findIndex(i => i.id === info.id);
+                                  if (infoIndex !== -1) {
+                                    newFormData.contact.customInfo[infoIndex].icon = e.target.value;
+                                  }
+                                }
+                                setFormData(newFormData);
+                              }}
+                              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-gray-100"
+                              placeholder="💬"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              Title
+                            </label>
+                            <input
+                              type="text"
+                              value={info.title}
+                              onChange={(e) => {
+                                const newFormData = { ...formData };
+                                if (newFormData.contact.customInfo) {
+                                  const infoIndex = newFormData.contact.customInfo.findIndex(i => i.id === info.id);
+                                  if (infoIndex !== -1) {
+                                    newFormData.contact.customInfo[infoIndex].title = e.target.value;
+                                  }
+                                }
+                                setFormData(newFormData);
+                              }}
+                              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-gray-100"
+                              placeholder="Info Title"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              Content
+                            </label>
+                            <input
+                              type="text"
+                              value={info.content}
+                              onChange={(e) => {
+                                const newFormData = { ...formData };
+                                if (newFormData.contact.customInfo) {
+                                  const infoIndex = newFormData.contact.customInfo.findIndex(i => i.id === info.id);
+                                  if (infoIndex !== -1) {
+                                    newFormData.contact.customInfo[infoIndex].content = e.target.value;
+                                  }
+                                }
+                                setFormData(newFormData);
+                              }}
+                              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-gray-100"
+                              placeholder="Contact information"
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                              Link (optional)
+                            </label>
+                            <input
+                              type="text"
+                              value={info.link || ''}
+                              onChange={(e) => {
+                                const newFormData = { ...formData };
+                                if (newFormData.contact.customInfo) {
+                                  const infoIndex = newFormData.contact.customInfo.findIndex(i => i.id === info.id);
+                                  if (infoIndex !== -1) {
+                                    newFormData.contact.customInfo[infoIndex].link = e.target.value;
+                                  }
+                                }
+                                setFormData(newFormData);
+                              }}
+                              className="w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-gray-100"
+                              placeholder="https://example.com"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                <button
+                  onClick={() => {
+                    const newFormData = { ...formData };
+                    if (!newFormData.contact.customInfo) {
+                      newFormData.contact.customInfo = [];
+                    }
+                    newFormData.contact.customInfo.push({
+                      id: Date.now().toString(),
+                      title: '',
+                      content: '',
+                      icon: '',
+                      link: '',
+                    });
+                    setFormData(newFormData);
+                  }}
+                  className="flex items-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded-xl transition"
+                >
+                  <FaSave className="mr-2" />
+                  Add New Info Box
+                </button>
               </div>
             )}
           </div>

@@ -11,9 +11,10 @@ A modern, fully responsive Next.js website for promoting export and import of lo
   - Product image, name, description, and category
   - WhatsApp contact button for direct inquiries
   - Responsive design
-- **About Us**: Company information, vision, mission, and why choose us
-- **Contact Page**: Multiple contact options including WhatsApp, email, phone, and address
+- **About Us**: Company information, vision, mission, why choose us, and custom sections
+- **Contact Page**: Multiple contact options including WhatsApp, email, phone, address, and custom info boxes
 - **Fully Responsive**: Works perfectly on mobile, tablet, and desktop devices
+- **Dark/Light Mode**: Toggle between light and dark themes with automatic persistence
 
 ### Admin Features
 - **Secure Login**: Protected admin area with email/password authentication
@@ -23,6 +24,16 @@ A modern, fully responsive Next.js website for promoting export and import of lo
   - Edit existing products
   - Delete products
   - View all products in a table format
+- **Site Settings Management**:
+  - **Theme Customization**: Customize primary and secondary colors that apply throughout the site
+  - **Navbar Settings**: Edit site title, upload logo, and toggle logo visibility
+  - **Hero Section**: Customize hero title, subtitle, and background image
+  - **About Us Content**: Edit description, vision, and mission statements
+  - **Contact Information**: Manage WhatsApp, email, phone, and address
+  - **Custom Sections**: Add/edit/delete custom sections on About Us page
+  - **Custom Contact Info**: Add/edit/delete custom contact information boxes
+- **Dark/Light Mode**: Full theme support with toggle in navbar
+- **Image Upload**: Upload images for logos, hero backgrounds, and products
 
 ## Tech Stack
 
@@ -89,10 +100,13 @@ JoVan/
 │   ├── about/               # About Us page
 │   ├── admin/               # Admin area
 │   │   ├── dashboard/       # Admin dashboard
-│   │   └── login/          # Admin login page
+│   │   ├── login/           # Admin login page
+│   │   └── settings/        # Site settings management
 │   ├── api/                # API routes
 │   │   ├── auth/           # NextAuth endpoints
-│   │   └── products/       # Product CRUD APIs
+│   │   ├── products/       # Product CRUD APIs
+│   │   ├── settings/       # Settings API
+│   │   └── upload/         # Image upload API
 │   ├── contact/            # Contact page
 │   ├── products/           # Products listing page
 │   ├── layout.tsx          # Root layout
@@ -100,10 +114,16 @@ JoVan/
 ├── components/              # React components
 │   ├── AuthProvider.tsx    # NextAuth session provider
 │   ├── Footer.tsx          # Footer component
+│   ├── HeroSection.tsx     # Hero section component
+│   ├── HomeContent.tsx     # Home page client content
 │   ├── Navbar.tsx          # Navigation bar
 │   └── ProductCard.tsx     # Product card component
+├── contexts/                # React contexts
+│   ├── SettingsContext.tsx # Site settings management
+│   └── ThemeContext.tsx    # Dark/light mode management
 ├── data/                    # Data storage
 │   ├── products.json       # Products database
+│   ├── settings.json       # Site settings storage
 │   └── users.json          # Users database
 ├── lib/                     # Utility functions
 │   ├── auth.ts             # NextAuth configuration
@@ -113,6 +133,7 @@ JoVan/
 │   ├── index.ts            # App types
 │   └── next-auth.d.ts      # NextAuth type extensions
 └── public/                  # Static assets
+    └── uploads/            # Uploaded images directory
 ```
 
 ## Key Features Explained
@@ -126,8 +147,12 @@ Each product card includes a "Contact via WhatsApp" button that:
 ### Admin Dashboard
 - Protected route requiring authentication
 - Add, edit, and delete products
-- Simple JSON-based data storage
-- Real-time updates after changes
+- Comprehensive site settings management
+- Theme customization (colors that apply site-wide)
+- Content management for About Us and Contact pages
+- Custom section creation for dynamic content
+- Dark/light mode support
+- Real-time preview of changes
 
 ### Responsive Design
 - Mobile-first approach using Tailwind CSS
@@ -137,18 +162,57 @@ Each product card includes a "Contact via WhatsApp" button that:
 
 ## Customization
 
-### Adding Products
+### Using Admin Dashboard (Recommended)
+
+The easiest way to customize the website is through the admin dashboard:
+
+1. **Login**: Navigate to `/admin/login` and use the default credentials
+2. **Site Settings**: Click "Site Settings" from the dashboard
+3. **Available Settings**:
+   - **Theme Colors**: Customize primary and secondary colors
+   - **Navbar**: Change site title, upload logo
+   - **Hero Section**: Edit title, subtitle, and background image
+   - **About Us**: Modify description, vision, and mission
+   - **About Sections**: Add custom sections with title, content, and icon
+   - **Contact Info**: Update WhatsApp, email, phone, and address
+   - **Custom Contact**: Add additional contact information boxes
+
+### Adding Custom Sections
+
+#### About Us Page
+1. Go to Admin Dashboard → Site Settings → About Sections
+2. Click "Add New Section"
+3. Enter title, content, and optional emoji icon
+4. Click "Save Changes"
+
+#### Contact Page
+1. Go to Admin Dashboard → Site Settings → Custom Contact
+2. Click "Add New Info Box"
+3. Enter title, content, emoji icon, and optional link
+4. Click "Save Changes"
+
+### Manual Customization
+
+#### Adding Products
 Products are stored in `data/products.json`. You can either:
 1. Use the admin dashboard (recommended)
 2. Manually edit the JSON file
 
-### Changing Contact Information
-Update the contact details in `app/contact/page.tsx`:
-```typescript
-const whatsappNumber = '+1234567890';
-const email = 'info@jovan.com';
-const phone = '+1 (234) 567-890';
-const address = '123 Business Street, City, Country';
+#### Changing Site Settings
+All site settings are stored in `data/settings.json`:
+```json
+{
+  "theme": {
+    "primaryColor": "#2563eb",
+    "secondaryColor": "#1e40af"
+  },
+  "navbar": {
+    "title": "JoVan",
+    "logo": "",
+    "showLogo": false
+  },
+  ...
+}
 ```
 
 ### Styling
@@ -168,13 +232,30 @@ The project uses Tailwind CSS. You can customize:
 
 Potential improvements for production:
 - Database integration (PostgreSQL, MongoDB, etc.)
-- Image upload functionality
+- Advanced image management
 - Email notifications
 - Order management system
-- Multiple admin users
+- Multiple admin users with roles
 - Product categories filtering
 - Search functionality
 - Analytics dashboard
+- Rich text editor for content
+- Section reordering with drag-and-drop
+- Export/import settings
+
+## Recent Updates
+
+See [UPDATE.md](UPDATE.md) for detailed changelog of recent updates including:
+- Dark/light mode fixes
+- Dynamic theme color application
+- Custom section management
+- Enhanced admin features
+
+## Documentation
+
+- **[ADMIN_CMS_FEATURES.md](ADMIN_CMS_FEATURES.md)**: Complete admin features documentation
+- **[IMPLEMENTATION.md](IMPLEMENTATION.md)**: Implementation details
+- **[UPDATE.md](UPDATE.md)**: Detailed changelog and update notes
 
 ## License
 

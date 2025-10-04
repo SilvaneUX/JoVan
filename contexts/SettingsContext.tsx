@@ -22,12 +22,25 @@ export interface SiteSettings {
     description: string;
     vision: string;
     mission: string;
+    customSections?: Array<{
+      id: string;
+      title: string;
+      content: string;
+      icon?: string;
+    }>;
   };
   contact: {
     whatsappNumber: string;
     email: string;
     phone: string;
     address: string;
+    customInfo?: Array<{
+      id: string;
+      title: string;
+      content: string;
+      icon?: string;
+      link?: string;
+    }>;
   };
 }
 
@@ -59,12 +72,14 @@ const defaultSettings: SiteSettings = {
     description: 'JoVan is a leading import and export company specializing in local commodities.',
     vision: 'To be the premier bridge connecting local commodities to global markets.',
     mission: 'To facilitate international trade while supporting local producers and maintaining the highest quality standards.',
+    customSections: [],
   },
   contact: {
     whatsappNumber: '+1234567890',
     email: 'info@jovan.com',
     phone: '+1 (234) 567-890',
     address: '123 Business Street, City, Country',
+    customInfo: [],
   },
 };
 
