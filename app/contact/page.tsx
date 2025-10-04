@@ -68,6 +68,28 @@ export default function ContactPage() {
                   <p className="text-gray-600 dark:text-gray-400">{address}</p>
                 </div>
               </div>
+
+              {/* Custom Contact Info */}
+              {settings?.contact.customInfo && settings.contact.customInfo.map((info) => (
+                <div key={info.id} className="flex items-start space-x-4 p-4">
+                  {info.icon && <div className="text-3xl mt-1">{info.icon}</div>}
+                  <div>
+                    <h3 className="font-semibold text-gray-800 dark:text-gray-100">{info.title}</h3>
+                    {info.link ? (
+                      <a
+                        href={info.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400"
+                      >
+                        {info.content}
+                      </a>
+                    ) : (
+                      <p className="text-gray-600 dark:text-gray-400">{info.content}</p>
+                    )}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
 

@@ -8,6 +8,7 @@ export default function AboutPage() {
   const description = settings?.about.description || 'JoVan is a leading export and import company specializing in local commodities.';
   const vision = settings?.about.vision || 'To become the most trusted partner in the export and import of local commodities.';
   const mission = settings?.about.mission || 'To provide exceptional service, maintain the highest quality standards, and create value for all stakeholders.';
+  const customSections = settings?.about.customSections || [];
 
   return (
     <div className="py-16 bg-gray-50 dark:bg-slate-950 min-h-screen">
@@ -44,7 +45,7 @@ export default function AboutPage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-8">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-semibold mb-6 text-gray-800 dark:text-gray-100">Why Choose Us?</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -73,6 +74,27 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
+
+        {/* Custom Sections */}
+        {customSections.length > 0 && (
+          <div className="space-y-8">
+            {customSections.map((section) => (
+              <div key={section.id} className="bg-white dark:bg-slate-800 rounded-lg shadow-lg p-8">
+                <div className="flex items-start space-x-4">
+                  {section.icon && (
+                    <div className="text-4xl flex-shrink-0">{section.icon}</div>
+                  )}
+                  <div className="flex-1">
+                    <h2 className="text-2xl font-semibold mb-4 text-gray-800 dark:text-gray-100">{section.title}</h2>
+                    <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+                      {section.content}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
