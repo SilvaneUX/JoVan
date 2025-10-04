@@ -1,7 +1,9 @@
 {
   "theme": {
     "primaryColor": "#2563eb",
-    "secondaryColor": "#1e40af"
+    "secondaryColor": "#1e40af",
+    "fontColorMode": "auto",
+    "fontColor": "#ffffff"
   },
   "navbar": {
     "logo": "",
