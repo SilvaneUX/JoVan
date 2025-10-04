@@ -38,11 +38,30 @@ Access via: Admin Dashboard → Site Settings
 - Customize vision statement
 - Update mission statement
 
+#### About Us Custom Sections
+- Add unlimited custom sections to About Us page
+- Each section includes:
+  - Title
+  - Content (supports multi-line text)
+  - Optional emoji icon
+- Delete sections when no longer needed
+- Sections appear after the default "Why Choose Us" section
+
 #### Contact Information
 - WhatsApp number
 - Email address
 - Phone number
 - Physical address
+
+#### Custom Contact Information
+- Add custom contact info boxes
+- Each box includes:
+  - Title
+  - Content
+  - Optional emoji icon
+  - Optional clickable link
+- Delete boxes when no longer needed
+- Boxes appear in the contact information section
 
 ### 3. Image Upload
 Two methods available for all image fields:
