@@ -87,6 +87,16 @@ export default function SettingsPage() {
         ...(newFormData as any)[section],
         [key]: value,
       };
+    } else if (fieldParts.length === 3) {
+      // Handle nested properties like theme.fontColor
+      const [section, subsection, key] = fieldParts;
+      (newFormData as any)[section] = {
+        ...(newFormData as any)[section],
+        [subsection]: {
+          ...((newFormData as any)[section][subsection] || {}),
+          [key]: value,
+        },
+      };
     }
     
     setFormData(newFormData);
@@ -183,6 +193,9 @@ export default function SettingsPage() {
                       placeholder="#2563eb"
                     />
                   </div>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    This color will be used for navbar, footer, and card accents
+                  </p>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -203,6 +216,71 @@ export default function SettingsPage() {
                       placeholder="#1e40af"
                     />
                   </div>
+                </div>
+                <div className="border-t border-gray-300 dark:border-slate-600 pt-4 mt-6">
+                  <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Font Color Settings</h3>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Font Color Mode
+                    </label>
+                    <div className="flex space-x-4 mb-4">
+                      <button
+                        onClick={() => {
+                          const newFormData = { ...formData };
+                          newFormData.theme.fontColorMode = 'auto';
+                          setFormData(newFormData);
+                        }}
+                        className={`px-4 py-2 rounded-xl font-medium transition ${
+                          formData.theme.fontColorMode === 'auto'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300'
+                        }`}
+                      >
+                        Automatic
+                      </button>
+                      <button
+                        onClick={() => {
+                          const newFormData = { ...formData };
+                          newFormData.theme.fontColorMode = 'manual';
+                          setFormData(newFormData);
+                        }}
+                        className={`px-4 py-2 rounded-xl font-medium transition ${
+                          formData.theme.fontColorMode === 'manual'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300'
+                        }`}
+                      >
+                        Manual
+                      </button>
+                    </div>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                      {formData.theme.fontColorMode === 'auto' 
+                        ? 'Font color will automatically adjust based on theme colors to ensure readability'
+                        : 'Choose a custom font color for navbar, footer, and cards'}
+                    </p>
+                  </div>
+                  {formData.theme.fontColorMode === 'manual' && (
+                    <div className="mt-4">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Custom Font Color
+                      </label>
+                      <div className="flex items-center space-x-4">
+                        <input
+                          type="color"
+                          value={formData.theme.fontColor || '#ffffff'}
+                          onChange={(e) => updateFormField('theme.fontColor', e.target.value)}
+                          className="h-10 w-20 rounded-lg cursor-pointer"
+                        />
+                        <input
+                          type="text"
+                          value={formData.theme.fontColor || '#ffffff'}
+                          onChange={(e) => updateFormField('theme.fontColor', e.target.value)}
+                          className="px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-xl focus:ring-2 focus:ring-blue-500 dark:bg-slate-700 dark:text-gray-100"
+                          placeholder="#ffffff"
+                        />
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
             )}

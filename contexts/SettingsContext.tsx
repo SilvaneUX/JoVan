@@ -6,6 +6,8 @@ export interface SiteSettings {
   theme: {
     primaryColor: string;
     secondaryColor: string;
+    fontColorMode: 'auto' | 'manual';
+    fontColor?: string;
   };
   navbar: {
     logo: string;
@@ -56,6 +58,8 @@ const defaultSettings: SiteSettings = {
   theme: {
     primaryColor: '#2563eb',
     secondaryColor: '#1e40af',
+    fontColorMode: 'auto',
+    fontColor: '#ffffff',
   },
   navbar: {
     logo: '',
